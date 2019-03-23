@@ -96,13 +96,15 @@ spec:
 `))
 
 	values := struct {
-		Sha  string
-		Task string
-		Repo string
+		Sha    string
+		Task   string
+		Repo   string
+		Secret string
 	}{
-		Sha:  sha,
-		Task: task,
-		Repo: repo,
+		Sha:    sha,
+		Task:   task,
+		Repo:   repo,
+		Secret: c.secret,
 	}
 
 	buf := bytes.NewBuffer(nil)
