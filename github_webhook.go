@@ -85,7 +85,7 @@ func (wh *GithubWebhookHandler) Handle(
 	switch eventName {
 	case "pull_request":
 		fmt.Printf(
-			"Got Pull Request event for %s#%s %s\n",
+			"Got Pull Request event for %s#%d %s\n",
 			event.Repository.FullName,
 			event.PullRequest.Number,
 			event.PullRequest.Head.Sha,
@@ -97,7 +97,7 @@ func (wh *GithubWebhookHandler) Handle(
 		}
 
 	default:
-		fmt.Printf("Got unknown event, %+v\n", payload)
+		fmt.Printf("Got unknown event, %s\n", string(payload))
 	}
 }
 
