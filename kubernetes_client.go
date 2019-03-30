@@ -88,7 +88,7 @@ spec:
           && git checkout {{ .Sha }}
           && make {{ .Task }}
           && export CI_STATE=success || export CI_STATE=failure
-          && curl 
+          && curl -v 
           -X POST
           -H "Content-Type: application/json"
           -H "Authorization: token {{ .GithubToken }}"
