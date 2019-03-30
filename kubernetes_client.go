@@ -57,6 +57,7 @@ kind: Job
 metadata:
   name: job-{{ .Sha }}-{{ .Task }}
 spec:
+  ttlSecondsAfterFinished: 86400
   template:
     metadata:
       name: job-{{ .Sha }}-{{ .Task }}
@@ -87,11 +88,11 @@ spec:
           && make {{ .Task }}
           && export CI_STATE=success || export CI_STATE=failure
           && curl 
-            -X POST
-            -H "Content-Type: application/json"
-            -H "Authorization: token {{ .Secret }}"
-            --data "{\"state\":\"$CI_STATE\",\"context\":\"ci.nimona.io: {{ .Task }}\"\"description\":\"$CI_STATE\"}"
-            https://api.github.com/repos/{{ .Repo }}/statuses/{{ .Sha }}
+          -X POST
+          -H "Content-Type: application/json"
+          -H "Authorization: token {{ .Secret }}"
+          --data "{\"state\":\"$CI_STATE\",\"context\":\"ci.nimona.io: {{ .Task }}\"\"description\":\"$CI_STATE\"}"
+          https://api.github.com/repos/{{ .Repo }}/statuses/{{ .Sha }}
       restartPolicy: Never
 `))
 
