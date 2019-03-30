@@ -41,9 +41,9 @@ func main() {
 		githubClient: ghClient,
 		kubeClient:   kubeClient,
 		tasks: []string{
-			"lint",
-			"test",
-			"build",
+			"make lint",
+			"make test",
+			"make build",
 		},
 	}
 
