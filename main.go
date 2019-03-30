@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	ghSecret := os.Getenv("GITHUB_SECRET")
+	ghSecret := os.Getenv("GH_TOKEN")
 	if ghSecret == "" {
 		log.Fatal("Missing Github secret")
 	}

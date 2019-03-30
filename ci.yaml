@@ -1,12 +1,4 @@
 apiVersion: v1
-kind: Secret
-metadata:
-  name: ci
-type: Opaque
-stringData:
-  GITHUB_SECRET: <YOUR-GITHUB-SECRET-HERE>
----
-apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: ci
@@ -72,16 +64,16 @@ spec:
           value: "on"
         - name: GOCACHE
           value: /go-cache
-        - name: GITHUB_SECRET
+        - name: GH_TOKEN
           valueFrom:
             secretKeyRef:
-              name: ci
-              key: GITHUB_SECRET
+              name: github
+              key: GH_TOKEN
         volumeMounts:
         - name: ci-go-cache
           mountPath: /go-cache
         command: ["/bin/sh"]
-        args: ["-c", "go install https://github.com/geoah/go-ci && go-ci"]
+        args: ["-c", "go get github.com/geoah/go-ci && go-ci"]
 ---
 apiVersion: v1
 kind: Service
