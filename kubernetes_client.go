@@ -11,14 +11,15 @@ import (
 
 type (
 	KubernetesClient struct {
-		secret string
+		kubeToken string
+		ghToken   string
 	}
 )
 
 func (c *KubernetesClient) request(
 	req *http.Request,
 ) error {
-	req.Header.Set("Authorization", "Bearer "+c.secret)
+	req.Header.Set("Authorization", "Bearer "+c.kubeToken)
 	req.Header.Set("Content-Type", "application/yaml")
 	// TODO should be loading ca from pod
 	tr := &http.Transport{
@@ -90,22 +91,22 @@ spec:
           && curl 
           -X POST
           -H "Content-Type: application/json"
-          -H "Authorization: token {{ .Secret }}"
+          -H "Authorization: token {{ .GithubToken }}"
           --data "{\"state\":\"$CI_STATE\",\"context\":\"ci.nimona.io: {{ .Task }}\"\"description\":\"$CI_STATE\"}"
           https://api.github.com/repos/{{ .Repo }}/statuses/{{ .Sha }}
       restartPolicy: Never
 `))
 
 	values := struct {
-		Sha    string
-		Task   string
-		Repo   string
-		Secret string
+		Sha         string
+		Task        string
+		Repo        string
+		GithubToken string
 	}{
-		Sha:    sha,
-		Task:   task,
-		Repo:   repo,
-		Secret: c.secret,
+		Sha:         sha,
+		Task:        task,
+		Repo:        repo,
+		GithubToken: c.ghToken,
 	}
 
 	buf := bytes.NewBuffer(nil)

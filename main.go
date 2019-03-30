@@ -9,8 +9,8 @@ import (
 )
 
 func main() {
-	ghSecret := os.Getenv("GH_TOKEN")
-	if ghSecret == "" {
+	ghToken := os.Getenv("GH_TOKEN")
+	if ghToken == "" {
 		log.Fatal("Missing Github secret")
 	}
 
@@ -30,11 +30,12 @@ func main() {
 	}
 
 	ghClient := &GithubClient{
-		secret: ghSecret,
+		ghToken: ghToken,
 	}
 
 	kubeClient := &KubernetesClient{
-		secret: kubeSecret,
+		kubeToken: kubeSecret,
+		ghToken:   ghToken,
 	}
 
 	ghWebhookHandler := &GithubWebhookHandler{

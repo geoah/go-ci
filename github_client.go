@@ -9,7 +9,7 @@ import (
 
 type (
 	GithubClient struct {
-		secret string
+		ghToken string
 	}
 	UpdateStatusRequest struct {
 		State       string `json:"state"`
@@ -22,7 +22,7 @@ type (
 func (c *GithubClient) request(
 	req *http.Request,
 ) error {
-	req.Header.Set("Authorization", "token "+c.secret)
+	req.Header.Set("Authorization", "token "+c.ghToken)
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
