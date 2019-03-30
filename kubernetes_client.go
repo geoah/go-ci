@@ -88,11 +88,11 @@ spec:
           && git checkout {{ .Sha }}
           && make {{ .Task }}
           && export CI_STATE=success || export CI_STATE=failure
-          && curl -v 
+          && curl -v
           -X POST
           -H "Content-Type: application/json"
           -H "Authorization: token {{ .GithubToken }}"
-          --data "{\"state\":\"$CI_STATE\",\"context\":\"ci.nimona.io: {{ .Task }}\"\"description\":\"$CI_STATE\"}"
+          --data "{\"state\":\"$CI_STATE\",\"context\":\"ci.nimona.io: {{ .Task }}\",\"description\":\"$CI_STATE\"}"
           https://api.github.com/repos/{{ .Repo }}/statuses/{{ .Sha }}
       restartPolicy: Never
 `))
